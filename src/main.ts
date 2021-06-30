@@ -5,11 +5,12 @@ import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
 import { AppModule } from './app.module';
 import { TConfiguration } from './types/configuration.type';
+import * as helmet from 'helmet';
 
 async function bootstrap() {
   const logger = new Logger(bootstrap.name.toUpperCase());
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   const configService = app.get<ConfigService<TConfiguration>>(ConfigService);
 
   const {
@@ -24,6 +25,7 @@ async function bootstrap() {
       saveUninitialized: false,
     }),
     cookieParser(),
+    helmet(),
   );
 
   await app.listen(serverPort);
