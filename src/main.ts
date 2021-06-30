@@ -1,9 +1,10 @@
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import * as cookieParser from 'cookie-parser';
+import * as session from 'express-session';
 import { AppModule } from './app.module';
 import { TConfiguration } from './types/configuration.type';
-import * as session from 'express-session';
 
 async function bootstrap() {
   const logger = new Logger(bootstrap.name.toUpperCase());
@@ -22,6 +23,7 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
     }),
+    cookieParser(),
   );
 
   await app.listen(serverPort);
