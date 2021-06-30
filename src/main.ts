@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
@@ -17,6 +17,8 @@ async function bootstrap() {
     port: serverPort,
     secret,
   } = configService.get<TConfiguration['SERVER']>('SERVER');
+
+  app.useGlobalPipes(new ValidationPipe());
 
   app.use(
     session({
